@@ -21,7 +21,7 @@ public class CustomerController {
                 break;
                 case 2: customerHandler.withdrawMoney();
                 break;
-                case 3: customerHandler.checkBalance();
+                case 3: customerHandler.checkTransactions();
             }
 
         }

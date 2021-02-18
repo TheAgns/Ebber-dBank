@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 import Connection.JDBC;
 
-public class CustomerHandler implements CustomerHandlerI {
+public class CustomerHandler {
     private List<Transaction> transactions;
     private Customer customer;
 
@@ -41,16 +41,13 @@ public class CustomerHandler implements CustomerHandlerI {
     List<Customer> customerList = new ArrayList<Customer>();
 
     public void changeBalance(int desposit, int choice) throws SQLException {
-        customerList = importData.fillList();
+        //customerList = importData.fillList();
         Connection connection = JDBC.getConnection();
-        for (Customer currentCustomer : customerList) {
-            int newBalance = currentCustomer.getAccountBalance() + desposit;
-            String query = "UPDATE Konti SET Balance = " + newBalance + " WHERE PersonId = " + choice;
+            String query = "UPDATE customerInfo SET current_balance = (current_balance+"+desposit+") WHERE person_ID = " + choice+";";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.executeUpdate();
 
         }
-    }
 
 
     public void despositMoney() throws SQLException {
@@ -67,13 +64,36 @@ public class CustomerHandler implements CustomerHandlerI {
         int medlemId = exportData.saveDataCustomer(customer);
         customer.setId(medlemId);
     }
-    public void withdrawMoney(){
-        
+    public void changeBalanceMinus(int withdraw, int choice) throws SQLException {
+        Connection connection = JDBC.getConnection();
+        String query = "UPDATE customerInfo SET current_balance = (current_balance-"+withdraw+") WHERE person_ID = " + choice+";";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.executeUpdate();
     }
-    public void checkBalance(){
 
-        System.out.println("Current balance: ");
+    public void withdrawMoney() throws SQLException {
+        ExportData exportData = new ExportData();
+        Customer customer = new Customer();
+        int choice = 0;
+        int despositAmount = 0;
+        System.out.println("Choose person ID:");
+        scanner = new Scanner(System.in);
+        choice = scanner.nextInt();
+        System.out.println("Amount to withdraw?");
+        despositAmount = scanner.nextInt();
+        changeBalanceMinus(despositAmount, choice);
+        int medlemId = exportData.saveDataCustomer(customer);
+        customer.setId(medlemId);
+    }
+    public void checkTransactions() throws SQLException {
+        List<Transaction> transactions = new ArrayList<Transaction>();
+        Connection connection = JDBC.getConnection();
 
+
+
+
+
+        System.out.println(transactions);
     }
 
     public void transferMoney() {

@@ -11,7 +11,7 @@ public class ExportData {
         int medlemId = 0;
         ResultSet rs = null;
         Connection connection = JDBC.getConnection();
-        String query = " INSERT INTO konti (FirstName, LastName, Balance)"
+        String query = " INSERT INTO customerInfo (first_name, last_name, current_balance)"
                 + " values (?, ?, ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
         preparedStatement.setString(1, customer.getFirstName());

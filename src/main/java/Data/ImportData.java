@@ -17,15 +17,16 @@ public class ImportData {
         List<Customer> medlemListe = new ArrayList<Customer>();
         Statement stmt = null;
         ResultSet res = null;
-        String sql = "select * from bankData.Konti";
+        String sql = "select * from bankData.customerInfo";
         Connection con = JDBC.getConnection();
         stmt = con.createStatement();
         res = stmt.executeQuery(sql);
         while (res.next()) {
-            int accountBalance = res.getInt("Balance");
-            String FirstName = res.getString("FirstName");
-            String LastName = res.getString("LastName");
-            int medlemId = res.getInt(1);
+            int medlemId = res.getInt("person_ID");
+            String FirstName = res.getString("first_name");
+            String LastName = res.getString("last_name");
+            int accountBalance = res.getInt("current_balance");
+           // int medlemId = res.getInt(1);
             customer = new Customer(medlemId,accountBalance,FirstName,LastName);
             medlemListe.add(customer);
         }
